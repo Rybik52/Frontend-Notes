@@ -9,9 +9,9 @@ export default function ContentTree({ data }) {
             data.map((elems, index) => 
                 <div key={index} className="container__item">
                     <span className="item__arrow" />
-                    <div className="item__title">{elems.recordTitle}</div>
+                    <div className="item__title">{elems.title}</div>
                     <div className="item__caption">
-                        <div className="item__caption-collection">{elems.сollection}</div>
+                        <div className="item__caption-collection">{elems.text}</div>
                         <div className="item__caption-tags">
                             {
                                 elems.tags.map((tag, indexTag) => <span className={`table-tags table-tags_${tag}`} key={indexTag}>Тэг {tag}</span>)

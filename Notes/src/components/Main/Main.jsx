@@ -1,36 +1,46 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import PropTypes from 'prop-types';
+import axios from 'axios';
+
 import ContentTable from '../Content/ContentTable';
-import ContentTree from '../Content/ContentTree';
+import Modal from '../Modal/Modal';
 import './main.css';
 
-export default function Main() {
-    const data = 
-    [
-        {
-            id: '1',
-            tags: [1],
-            timestamp: '01.01.2023 18:50',
-            recordTitle: 'Запись 1',
-            recordId: [1, 2],
-            сollection: 'Коллекция 1'
-        },
-        {
-            id: '2',
-            tags: [2],
-            timestamp: '01.01.2023 18:50',
-            recordTitle: 'Запись 2',
-            recordId: [4, 5],
-            сollection: 'Коллекция 2'
-        },
-        {
-            id: '3',
-            tags: [3, 1],
-            timestamp: '01.01.2023 18:50',
-            recordTitle: 'Запись 3',
-            recordId: [1, 2],
-            сollection: 'Коллекция 3'
-        },
-    ];
+export default function Main({ popupOpen, togglePopupOpen }) {
+    const baseURL = 'http://localhost:1114/api/v1/user/space/1/record';
+
+    const [posts, setPosts] = useState([]);
+
+    useEffect(() => {
+        axios.get(baseURL)
+            .then((res) => {
+                setPosts(res.data);
+            })
+    }, [])
+
+    const data = {
+        title: "",
+        tags: [],
+        text: "",
+        recordIds: []
+    }
+
+    const [inputData, setInputData] = useState(data)
+    const handleInput = (event) => {
+        setInputData({...inputData, [event.target.name]: event.target.value})
+    }
+
+    // const handleCheckbox = (event) => {
+    //     setInputData({...inputData, [event.target.name]: event.target.value.push()})
+    // }
+
+    function handleSumbit(event){
+        event.preventDefault()
+        axios.post(baseURL, inputData)
+            .then(response => console.log(`Резульат: ${response}`))
+            .catch(err => console.log(`ОШИБКА: ${err}`))
+    }    
+
 
     return (
         <main>
@@ -45,8 +55,36 @@ export default function Main() {
                 </div>
                 <button className='content-settings__create'>Создать</button>
             </div>
-            {/* <ContentTable data={data} /> */}
-            <ContentTree data={data} />
+            <ContentTable togglePopupOpen={togglePopupOpen} data={posts} />
+            <Modal popupOpen={popupOpen} togglePopupOpen={togglePopupOpen}>
+                <>
+                <div className="popup-container">
+                    <h1 className="popup-title">Добавить запись</h1>
+                    <form onSubmit={handleSumbit} className='popup-form' method='post'>
+                        <input onChange={handleInput} name="title" value={inputData.title} type="text" placeholder='Введите название' required />
+                        <input onChange={handleInput} name="text" value={inputData.text} type="text" placeholder='Введите коллекцию' required />
+                        {/* <input onChange={handleCheckbox} id='info' type="checkbox" name="tags" value={inputData.tags} />
+                        <label htmlFor="info">info</label>
+                        <input onChange={handleCheckbox} id='danger' type="checkbox" name="tags" value={inputData.tags} />
+                        <label htmlFor="danger">danger</label>
+                        <input onChange={handleCheckbox} id='warning' type="checkbox" name="tags" value={inputData.tags} />
+                        <label htmlFor="warning">warning</label> */}
+
+                        {/* <select onChange={handleInput} name="recordIds" value={inputData.recordIds} placeholder='Выберите связь'>
+                            <option value="">Нет связей</option>
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                        </select>    */}
+                        <button>Добавить запись</button>
+                    </form>
+                </div>
+                </>
+            </Modal>
         </main>
     )
+}
+
+Main.propTypes = {
+    popupOpen: PropTypes.bool.isRequired,
+    togglePopupOpen: PropTypes.func
 }

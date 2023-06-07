@@ -68,3 +68,22 @@ main>textarea{
 .content-settings__create:hover {
     background-color: #535bf2;
 }
+
+.popup-container{
+    text-align: center;
+    color: #fecc7d;
+}
+
+.popup-form {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 350px;
+    width: 500px;
+    padding: 20px;
+}
+
+.popup-form>input, select, button {
+    padding: 20px;
+    color: #fecc7d;
+}

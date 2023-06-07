@@ -18,14 +18,8 @@ th {
     padding: 0 5px 0 5px;
 }
 
-.table-tags_1 {
+.table-tags {
     background-color: green;
-}
-.table-tags_2 {
-    background-color: yellow;
-}
-.table-tags_3 {
-    background-color: red;
 }
 
 .table-records {
@@ -49,6 +43,8 @@ th {
     justify-content: stretch;
     gap: 20px;
     align-items: center;
+    position:static;
+    z-index: 1;
 
 }
 
@@ -69,4 +65,13 @@ th {
     border-radius: 2rem;
     padding: 0 10px 0 10px;
     background-color: red;
+}
+
+.add-record {
+    cursor: pointer;
+    transition: 200ms ease all;
+}
+
+.add-record:hover {
+    background: #595959;
 }

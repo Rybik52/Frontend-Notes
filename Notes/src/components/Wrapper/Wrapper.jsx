@@ -7,13 +7,15 @@ import './wrapper.css';
 
 export default function Wrapper() {
     const [sidebarOpen, toggleSidebarOpen] = useToggle(false);
+    const [popupOpen, togglePopupOpen] = useToggle(false);
+
 
     return (
         <div className='layout'>
             <Sidebar isOpen={sidebarOpen} />
             <div className="wrapper" >
                 <Navbar isOpen={sidebarOpen} toggleIsOpen={toggleSidebarOpen} />
-                <Main />
+                <Main popupOpen={popupOpen}  togglePopupOpen={togglePopupOpen} />
             </div>
         </div>
     )

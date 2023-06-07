@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import './content.css';
 
-export default function ContentTable({ data }) {
+export default function ContentTable({ data, togglePopupOpen }) {
     return (
         <table>
         <thead>
@@ -12,7 +12,7 @@ export default function ContentTable({ data }) {
                 <th>Теги</th>
                 <th>Связанное</th>
                 <th>Дата создания</th>
-                <th>+</th>
+                <th onClick={togglePopupOpen} className='add-record'>+</th>
                 <th>...</th>
             </tr>
         </thead>
@@ -20,25 +20,27 @@ export default function ContentTable({ data }) {
             {
                 data.map((elems, index) => 
                     <tr key={index}>
-                        <td>{elems.recordTitle}</td>
-                        <td>{elems.сollection}</td>
+                        <td>{elems.title}</td>
+                        <td>{elems.text}</td>
                         <td>
                             {
                                 elems.tags.map((tag, indexTag) => 
                                 <span 
-                                    className={`table-tags table-tags_${tag}`} 
+                                    className={`table-tags`} 
                                     key={indexTag}>Тэг {tag}</span>)
                             }
                         </td>
                         <td>
                             {
-                                elems.recordId.map((id, indexId) => 
+                                elems.recordIds.map((id, indexId) => 
                                 <span 
                                     className='table-records' 
                                     key={indexId}>Связаная {id}</span>)
                             }
                         </td>
-                        <td>{elems.timestamp}</td>
+                        <td>{new Date(elems.date).toLocaleString("ru-RU")}</td>
+                        <td>Изменить</td>
+                        <td>Удалить</td>
                     </tr>
                 )
             }
@@ -51,5 +53,6 @@ ContentTable.propTypes = {
     data: PropTypes.oneOfType([
         PropTypes.object,
         PropTypes.array
-    ])
+    ]),
+    togglePopupOpen: PropTypes.func
 }
