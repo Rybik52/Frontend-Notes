@@ -1,46 +1,25 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-import axios from 'axios';
+import {getData} from "../../FetchData/imports.jsx";
 
-import ContentTable from '../Content/ContentTable';
-import Modal from '../Modal/Modal';
+import ContentTable from '../Content/ContentTable.jsx';
+import AddRecord from "../PopUps/AddRecord.jsx";
+import ContentList from "../Content/ContentList.jsx";
 import './main.css';
+import ContentTree from "../Content/ContentTree.jsx";
+
 
 export default function Main({ popupOpen, togglePopupOpen }) {
-    const baseURL = 'http://localhost:1114/api/v1/user/space/1/record';
-
     const [posts, setPosts] = useState([]);
+    const [view, toggleView] = useState(0);
+
+    function betterToggleState() {
+        toggleView((prevState) => (prevState + 1) % 3);
+    }
 
     useEffect(() => {
-        axios.get(baseURL)
-            .then((res) => {
-                setPosts(res.data);
-            })
+        getData(setPosts)
     }, [])
-
-    const data = {
-        title: "",
-        tags: [],
-        text: "",
-        recordIds: []
-    }
-
-    const [inputData, setInputData] = useState(data)
-    const handleInput = (event) => {
-        setInputData({...inputData, [event.target.name]: event.target.value})
-    }
-
-    // const handleCheckbox = (event) => {
-    //     setInputData({...inputData, [event.target.name]: event.target.value.push()})
-    // }
-
-    function handleSumbit(event){
-        event.preventDefault()
-        axios.post(baseURL, inputData)
-            .then(response => console.log(`Резульат: ${response}`))
-            .catch(err => console.log(`ОШИБКА: ${err}`))
-    }    
-
 
     return (
         <main>
@@ -50,36 +29,22 @@ export default function Main({ popupOpen, togglePopupOpen }) {
             </ul>
             <div className="content-settings">
                 <div className='content-settings__nav'>
-                    <div className="content-settings__nav-view">Отображение: <br />Таблица</div>
-                    <div className="content-settings__nav-options">...</div>
+                    <div className="content-settings__nav-view">
+                        Отображение: <br />
+                        {
+                            view === 0 ? 'Таблица' :
+                            view === 1 ? 'Диаграмма' : 'Список'
+                        }
+                    </div>
+                    <div className="content-settings__nav-options" onClick={() => betterToggleState()}>...</div>
                 </div>
-                <button className='content-settings__create'>Создать</button>
+                <button onClick={togglePopupOpen} className='content-settings__create'>Создать</button>
             </div>
-            <ContentTable togglePopupOpen={togglePopupOpen} data={posts} />
-            <Modal popupOpen={popupOpen} togglePopupOpen={togglePopupOpen}>
-                <>
-                <div className="popup-container">
-                    <h1 className="popup-title">Добавить запись</h1>
-                    <form onSubmit={handleSumbit} className='popup-form' method='post'>
-                        <input onChange={handleInput} name="title" value={inputData.title} type="text" placeholder='Введите название' required />
-                        <input onChange={handleInput} name="text" value={inputData.text} type="text" placeholder='Введите коллекцию' required />
-                        {/* <input onChange={handleCheckbox} id='info' type="checkbox" name="tags" value={inputData.tags} />
-                        <label htmlFor="info">info</label>
-                        <input onChange={handleCheckbox} id='danger' type="checkbox" name="tags" value={inputData.tags} />
-                        <label htmlFor="danger">danger</label>
-                        <input onChange={handleCheckbox} id='warning' type="checkbox" name="tags" value={inputData.tags} />
-                        <label htmlFor="warning">warning</label> */}
-
-                        {/* <select onChange={handleInput} name="recordIds" value={inputData.recordIds} placeholder='Выберите связь'>
-                            <option value="">Нет связей</option>
-                            <option value="1">1</option>
-                            <option value="2">2</option>
-                        </select>    */}
-                        <button>Добавить запись</button>
-                    </form>
-                </div>
-                </>
-            </Modal>
+            {
+                view === 0 ? <ContentTable data={posts} setPosts={setPosts} /> :
+                view === 1 ? <ContentTree data={posts}/> : <ContentList data={posts} />
+            }
+            <AddRecord posts={posts} setPosts={setPosts} popupOpen={popupOpen} togglePopupOpen={togglePopupOpen}/>
         </main>
     )
 }

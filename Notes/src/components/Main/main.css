@@ -4,7 +4,6 @@ main {
 }
 
 main>textarea{
-    height: 50px;
     resize: none;
     text-align: center;
     transition: 200ms ease all;
@@ -23,7 +22,6 @@ main>textarea{
     display: flex;
     align-items: center;
     height: 50px;
-    display: flex;
     justify-content: space-between;
     border-bottom: 2px black solid;
 
@@ -54,36 +52,20 @@ main>textarea{
     cursor: pointer;
 }
 
+.content-settings__nav-options:hover {
+    background-color: #595959;
+}
 .content-settings__create {
     background-color: #fecc7d;
     color: #595959;
     height: 50px;
     padding: 5px 10px 5px 10px;
     font-weight: 600;
-    outline: none;
     border: none;
     transition: 200ms ease all;
+    cursor: pointer;
 }
 
 .content-settings__create:hover {
     background-color: #535bf2;
-}
-
-.popup-container{
-    text-align: center;
-    color: #fecc7d;
-}
-
-.popup-form {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    height: 350px;
-    width: 500px;
-    padding: 20px;
-}
-
-.popup-form>input, select, button {
-    padding: 20px;
-    color: #fecc7d;
 }
