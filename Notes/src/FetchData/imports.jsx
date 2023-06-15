@@ -22,10 +22,9 @@ export const getRecord = (id, setData) => {
 }
 export const deleteRecord = (item, setData) => {
     if (window.confirm(`Вы уверены что хотите удалить запись: ${item.title}?`)) {
-        console.log(item)
         axios.delete(baseURL + item.id)
             .then((response) => {
-                console.log(`Запись удалена:  ${response.data}`)
+                console.log('Запись удалена:', response.data)
                 getData(setData)
             })
             .catch((err) => {

@@ -11,8 +11,8 @@ export default function Record() {
 
     useEffect(() => {
         getRecord(id, setPost)
-    },[])
-    console.log(post)
+    },[id])
+
     return (
         <div className='container__record'>
             <h1>Название записи: {post.title}</h1>

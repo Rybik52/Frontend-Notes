@@ -1,11 +1,9 @@
 import React from 'react';
+import {NavLink} from "react-router-dom";
 import PropTypes from 'prop-types';
 import './navbar.css';
-import {useParams} from "react-router-dom";
 
 export default function Navbar({isOpen, toggleIsOpen}) {
-    const { id } = useParams();
-    console.log(id)
     return (
         <>
             <header style={{width: !isOpen ? '100vw' : 'calc(100vw - 200px'}}>
@@ -16,7 +14,9 @@ export default function Navbar({isOpen, toggleIsOpen}) {
                         style={{transform: !isOpen ? 'rotate(225deg)' : 'rotate(45deg)'}}
                         >
                     </span>
-                    <div className="page-title__title">Заметки {id}</div>
+                    <NavLink to='/'>
+                        <div className="page-title__title">Заметки</div>
+                    </NavLink>
                 </div>
                 <div className="status-bar">Статус бар</div>
                 <ul className="options">

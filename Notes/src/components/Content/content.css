@@ -6,8 +6,20 @@ table, th, td {
     text-align: center  ;
 }
 
+table {
+    display: block;
+    overflow-x: auto;
+    white-space: nowrap;
+}
+
 th {
     color: #7b7b7b;
+}
+
+.table-input {
+    height: 100%;
+    width: 100%;
+    all: unset;
 }
 
 .table-tags {
@@ -30,14 +42,16 @@ th {
     cursor: pointer;
     width: fit-content;
 }
-.table-delete, .table-change {
+.table-delete, .table-change, .table-title, .table-addCol {
     cursor: pointer;
     transition: 200ms ease all;
 }
 
-.table-change:hover {
+
+.table-addCol:hover, .table-change:hover, .table-title:hover {
     background: #595959;
 }
+
 
 .table-delete:hover {
     background: brown;
@@ -45,7 +59,7 @@ th {
 
 .container__item {
     height: 50px;
-    width: 250px;
+    width: fit-content;
     color: #fecc7d;
     border: 2px #000 solid;
     border-collapse: collapse;
@@ -57,7 +71,11 @@ th {
     align-items: center;
     position:static;
     z-index: 1;
-
+    transition: 200ms ease all;
+    cursor: pointer;
+}
+.container__item:hover {
+    background: #595959;
 }
 
 .item__arrow {
@@ -90,4 +108,12 @@ th {
 
 .rd3t-link{
     stroke: #fecc7d !important;
+}
+
+.node__root > g >rect {
+    fill: red !important;
+}
+
+.node__leaf > g > rect {
+    fill: none;
 }

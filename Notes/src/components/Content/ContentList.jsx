@@ -1,15 +1,20 @@
-import React from 'react';
+import React, {useState} from 'react';
 import PropTypes from 'prop-types';
 import { useToggle } from "../../hooks/useToggle.jsx";
+import PageBar from "../PageBar/PageBar.jsx";
 import './content.css';
 
 export default function ContentList({ data }) {
     const [dropDown, toggleDropDown] = useToggle(true);
-
+    const [pageOpen, togglePageOpen] = useToggle(false);
+    const [selectedRecord, setSelectedRecord] = useState(null);
     return (
         <div className='container'>
             {data.map((elems, index) => (
-                <div key={index} className="container__item">
+                <div  onClick={() => {
+                    setSelectedRecord(elems);
+                    togglePageOpen();
+                }} key={index} className="container__item">
           <span
               style={{ transform: dropDown ? 'rotate(45deg)' : 'rotate(135deg)' }}
               className="item__arrow"
@@ -29,6 +34,7 @@ export default function ContentList({ data }) {
                     })}
                 </div>
             ))}
+            <PageBar pageOpen={pageOpen} togglePageOpen={togglePageOpen} selectedRecord={selectedRecord} />
         </div>
     );
 }
